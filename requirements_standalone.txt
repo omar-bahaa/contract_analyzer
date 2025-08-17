@@ -1,0 +1,21 @@
+# Requirements for Standalone Islamic Contract Analyzer
+# Minimal dependencies for GPT-based analysis without external knowledge base
+
+# Core LLM Integration
+openai>=1.12.0
+
+# Streamlit for web interface
+streamlit>=1.28.0
+
+# Document processing with Mistral OCR
+PyMuPDF>=1.23.0  # For PDF processing
+python-docx>=0.8.11
+python-magic>=0.4.27
+Pillow>=10.0.0  # For image processing
+
+# Configuration and utilities
+pyyaml>=6.0
+requests>=2.31.0
+
+# Optional: For better text processing
+python-magic-bin>=0.4.14  # For file type detection on Windows

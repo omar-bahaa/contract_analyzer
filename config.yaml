@@ -1,0 +1,68 @@
+# Islamic Contract RAG System Configuration
+
+# API Configuration
+api:
+  host: "0.0.0.0"
+  port: 8000
+  debug: false
+
+# Frontend Configuration
+frontend:
+  host: "0.0.0.0"
+  port: 8501
+
+# Database Configuration
+database:
+  chroma_db_path: "./data/chroma_db"
+  collection_name: "islamic_documents"
+
+# LLM Configuration
+llm:
+  backend: "openai"  # ollama, huggingface, openai
+  model_name: "gpt-4o"  # for ollama
+  temperature: 0.7
+  # max_tokens: 500
+  # OpenAI specific settings
+  openai_api_key: ""  # Set your OpenAI API key here or use environment variable OPENAI_API_KEY
+  openai_model: "gpt-4o"  # gpt-4o, gpt-4-turbo, gpt-3.5-turbo
+  openai_base_url: ""  # Optional: for custom OpenAI-compatible endpoints
+
+# Embeddings Configuration
+embeddings:
+  backend: "openai"  # sentence_transformers, openai
+  model_name: "paraphrase-multilingual-MiniLM-L12-v2"  # for sentence_transformers
+  # OpenAI embeddings settings
+  openai_embedding_model: "text-embedding-3-large"  # text-embedding-3-large, text-embedding-3-small, text-embedding-ada-002
+  openai_embedding_dimensions: 3072  # 3072 for text-embedding-3-large, 1536 for text-embedding-3-small/ada-002
+
+# Document Processing Configuration
+document_processing:
+  supported_formats: ["pdf", "docx", "doc"]
+  chunk_size: 1000
+  chunk_overlap: 200
+  ocr_languages: ["ara", "eng"]
+
+# Mistral AI Configuration (for OCR)
+mistral:
+  api_key: ""  # Set your Mistral API key here or use environment variable MISTRAL_API_KEY
+  model: "mistral-ocr-latest"  # Mistral's OCR model
+  max_tokens: 2000
+  temperature: 0.1
+
+# Arabic Text Processing
+arabic_processing:
+  normalize_alef: true
+  normalize_teh_marbuta: true
+  remove_diacritics: true
+  normalize_hamza: true
+
+# Data Paths
+paths:
+  islamic_documents: "./data/islamic_documents"
+  contracts: "./data/contracts"
+  uploads: "./data/uploads"
+
+# Logging
+logging:
+  level: "INFO"
+  file: "./logs/system.log"
