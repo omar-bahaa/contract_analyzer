@@ -207,14 +207,20 @@ def main():
         st.header("⚙️ إعدادات التحليل")
         
         # Analysis type selection
+        # analysis_type = st.selectbox(
+        #     "نوع التحليل",
+        #     ["comprehensive", "riba", "gharar", "summary"],
+        #     format_func=lambda x: {
+        #         "comprehensive": "تحليل شامل",
+        #         "riba": "تحليل الربا",
+        #         "gharar": "تحليل الغرر",
+        #         "summary": "ملخص فقط"
+        #     }[x]
         analysis_type = st.selectbox(
             "نوع التحليل",
-            ["comprehensive", "riba", "gharar", "summary"],
+            ["comprehensive"],
             format_func=lambda x: {
-                "comprehensive": "تحليل شامل",
-                "riba": "تحليل الربا",
-                "gharar": "تحليل الغرر",
-                "summary": "ملخص فقط"
+                "comprehensive": "تحليل شامل"
             }[x]
         )
         

@@ -131,19 +131,19 @@ class StandaloneContractAnalyzer:
             logger.info(f"Starting {analysis_type} analysis of contract")
             
             # Generate contract summary first
-            summary = self._generate_summary(contract_text)
+            # summary = self._generate_summary(contract_text)
             
             # Generate detailed analysis based on type
-            if analysis_type == "comprehensive":
-                detailed_analysis = self._comprehensive_analysis(contract_text)
-            elif analysis_type == "riba":
-                detailed_analysis = self._riba_analysis(contract_text)
-            elif analysis_type == "gharar":
-                detailed_analysis = self._gharar_analysis(contract_text)
-            elif analysis_type == "summary":
-                detailed_analysis = summary.text
-            else:
-                detailed_analysis = self._comprehensive_analysis(contract_text)
+            # if analysis_type == "comprehensive":
+            #     detailed_analysis = self._comprehensive_analysis(contract_text)
+            # elif analysis_type == "riba":
+            #     detailed_analysis = self._riba_analysis(contract_text)
+            # elif analysis_type == "gharar":
+            #     detailed_analysis = self._gharar_analysis(contract_text)
+            # elif analysis_type == "summary":
+            #     detailed_analysis = summary.text
+            # else:
+            detailed_analysis = self._comprehensive_analysis(contract_text)
             
             # Determine compliance status
             compliance_status = self._determine_compliance(detailed_analysis)
@@ -156,7 +156,8 @@ class StandaloneContractAnalyzer:
             logger.info(f"Analysis completed in {processing_time:.2f} seconds")
             
             return AnalysisResult(
-                summary=summary.text,
+                # summary=summary.text,
+                summary="lorem ipsum",
                 detailed_analysis=detailed_analysis.text if hasattr(detailed_analysis, 'text') else detailed_analysis,
                 compliance_status=compliance_status,
                 recommendations=recommendations.text,
@@ -196,7 +197,7 @@ class StandaloneContractAnalyzer:
         
         return self.llm.generate_response(
             prompt,
-            max_tokens=1200,
+            max_tokens=1400,
             temperature=0.6
         )
     
@@ -256,7 +257,7 @@ class StandaloneContractAnalyzer:
 {analysis}
 
 والعقد الأصلي:
-{contract_text[:1000]}...
+{contract_text}...
 
 يرجى تقديم توصيات عملية ومحددة لتحسين هذا العقد وجعله أكثر توافقاً مع الشريعة الإسلامية. 
 
