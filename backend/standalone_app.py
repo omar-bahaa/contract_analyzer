@@ -148,9 +148,24 @@ def main():
     st.title("🕌 تحليل العقود الإسلامية باستخدام GPT")
     st.markdown("### تحليل شرعي شامل للعقود والاتفاقيات بدون قاعدة معرفة خارجية")
     
-    # Check for API keys
-    openai_key = os.getenv('OPENAI_API_KEY')
-    mistral_key = os.getenv('MISTRAL_API_KEY')
+    # Check for API keys (try Streamlit secrets first, then environment)
+    openai_key = None
+    mistral_key = None
+    
+    try:
+        # Try Streamlit secrets first (for hosted deployment)
+        if 'OPENAI_API_KEY' in st.secrets:
+            openai_key = st.secrets['OPENAI_API_KEY']
+        if 'MISTRAL_API_KEY' in st.secrets:
+            mistral_key = st.secrets['MISTRAL_API_KEY']
+    except:
+        pass
+    
+    # Fallback to environment variables (for local development)
+    if not openai_key:
+        openai_key = os.getenv('OPENAI_API_KEY')
+    if not mistral_key:
+        mistral_key = os.getenv('MISTRAL_API_KEY')
     
     if not openai_key:
         st.error("""
@@ -158,6 +173,10 @@ def main():
         
         لا يمكن تشغيل التطبيق بدون مفتاح OpenAI API. يرجى:
         
+        **للنشر على Streamlit Cloud:**
+        1. إضافة `OPENAI_API_KEY` في ملف `.streamlit/secrets.toml`
+        
+        **للتطوير المحلي:**
         1. الحصول على مفتاح من: https://platform.openai.com/api-keys
         2. تشغيل: `./setup_keys.sh` لإعداد المفاتيح
         3. أو تعيين متغير البيئة: `export OPENAI_API_KEY=your_key_here`
@@ -169,6 +188,11 @@ def main():
         ⚠️ **مفتاح Mistral API غير موجود**
         
         سيعمل التطبيق بوظائف محدودة. للحصول على أفضل تجربة:
+        
+        **للنشر على Streamlit Cloud:**
+        - إضافة `MISTRAL_API_KEY` في ملف `.streamlit/secrets.toml`
+        
+        **للتطوير المحلي:**
         - احصل على مفتاح من: https://console.mistral.ai/
         - شغل: `./setup_keys.sh` لإعداد المفاتيح
         """)

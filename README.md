@@ -67,6 +67,27 @@ This launches a streamlined Streamlit app that:
 
 Access at: http://localhost:8502
 
+## ☁️ Streamlit Cloud Deployment
+
+To deploy the standalone app on Streamlit Cloud:
+
+1. **Fork this repository** on GitHub
+2. **Connect to Streamlit Cloud**: https://streamlit.io/cloud
+3. **Add secrets**: In your Streamlit Cloud app settings, add:
+   ```toml
+   # Copy content from .streamlit/secrets.toml.example
+   OPENAI_API_KEY = "your_actual_openai_api_key"
+   MISTRAL_API_KEY = "your_actual_mistral_api_key"  # optional
+   ```
+4. **Set app path**: `backend/standalone_app.py`
+5. **Deploy**: Your app will be live at `https://yourapp.streamlit.app`
+
+### Streamlit Cloud Features:
+- 🔐 Secure API key management via secrets
+- 🌐 Public or private app hosting
+- 🔄 Automatic updates from GitHub
+- 📊 Usage analytics and logs
+
 ## 🔑 API Keys Required
 
 This system requires API keys for optimal functionality:

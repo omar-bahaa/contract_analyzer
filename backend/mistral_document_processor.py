@@ -15,6 +15,12 @@ import requests
 from docx import Document
 import yaml
 
+try:
+    import streamlit as st
+    HAS_STREAMLIT = True
+except ImportError:
+    HAS_STREAMLIT = False
+
 # Setup logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -41,13 +47,19 @@ class MistralDocumentProcessor:
             logger.warning(f"Could not load config from {config_path}: {e}")
             return {}
     
-    def _get_mistral_api_key(self) -> str:
-        """Get Mistral API key from config or environment"""
-        # Try config first, then environment variable
-        api_key = (
-            self.config.get('mistral', {}).get('api_key') or
-            os.getenv('MISTRAL_API_KEY')
-        )
+    def _get_mistral_api_key(self) -> Optional[str]:
+        """Get Mistral API key from Streamlit secrets or environment"""
+        # First try Streamlit secrets (for hosted deployment)
+        if HAS_STREAMLIT:
+            try:
+                import streamlit as st
+                if hasattr(st, 'secrets') and 'MISTRAL_API_KEY' in st.secrets:
+                    return st.secrets['MISTRAL_API_KEY']
+            except Exception as e:
+                logger.debug(f"Could not read MISTRAL_API_KEY from Streamlit secrets: {e}")
+        
+        # Fallback to environment variables (for local development)
+        api_key = os.getenv('MISTRAL_API_KEY')
         
         if not api_key:
             logger.warning("Mistral API key not found. OCR functionality will be limited.")

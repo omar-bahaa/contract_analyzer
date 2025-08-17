@@ -10,6 +10,12 @@ from typing import Dict, Any, Optional
 from dataclasses import dataclass
 import yaml
 
+try:
+    import streamlit as st
+    HAS_STREAMLIT = True
+except ImportError:
+    HAS_STREAMLIT = False
+
 from llm_interface import ArabicLLMInterface, LLMResponse
 from standalone_prompts import StandalonePromptBuilder, StandaloneContractPrompts
 
@@ -41,6 +47,28 @@ class StandaloneContractAnalyzer:
         self.prompts = StandaloneContractPrompts()
         self.llm = self._setup_llm()
     
+    def _get_api_key(self, key_name: str) -> Optional[str]:
+        """
+        Get API key from Streamlit secrets (for hosted apps) or environment variables (for local)
+        
+        Args:
+            key_name: Name of the API key (e.g., 'OPENAI_API_KEY', 'MISTRAL_API_KEY')
+        
+        Returns:
+            API key string or None if not found
+        """
+        # First try Streamlit secrets (for hosted deployment)
+        if HAS_STREAMLIT:
+            try:
+                import streamlit as st
+                if hasattr(st, 'secrets') and key_name in st.secrets:
+                    return st.secrets[key_name]
+            except Exception as e:
+                logger.debug(f"Could not read {key_name} from Streamlit secrets: {e}")
+        
+        # Fallback to environment variables (for local development)
+        return os.getenv(key_name)
+    
     def _load_config(self, config_path: str) -> Dict[str, Any]:
         """Load configuration from YAML file"""
         try:
@@ -68,9 +96,12 @@ class StandaloneContractAnalyzer:
         backend = llm_config.get('backend', 'openai')
         model_name = llm_config.get('openai_model', 'gpt-4o')
         
+        # Get API key from Streamlit secrets or environment variables
+        openai_api_key = self._get_api_key('OPENAI_API_KEY')
+        
         # OpenAI specific parameters
         openai_kwargs = {
-            'openai_api_key': llm_config.get('openai_api_key', os.getenv('OPENAI_API_KEY')),
+            'openai_api_key': openai_api_key,
             'openai_base_url': llm_config.get('openai_base_url')
         }
         
