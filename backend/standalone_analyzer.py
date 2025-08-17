@@ -34,7 +34,7 @@ class StandaloneContractAnalyzer:
     Standalone contract analyzer using GPT without external knowledge base
     """
     
-    def __init__(self, config_path: str = "../config.yaml"):
+    def __init__(self, config_path: str = "./config.yaml"):
         """Initialize the analyzer with configuration"""
         self.config = self._load_config(config_path)
         self.prompt_builder = StandalonePromptBuilder()
