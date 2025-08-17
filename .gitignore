@@ -70,8 +70,6 @@ Thumbs.db
 
 # Streamlit
 .streamlit/secrets.toml
-.streamlit/config.toml
-.streamlit/secrets.toml
 
 # Temporary files
 tmp/
