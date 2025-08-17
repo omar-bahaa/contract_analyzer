@@ -30,7 +30,7 @@ class MistralDocumentProcessor:
     Document processor using Mistral AI for OCR instead of tesseract
     """
     
-    def __init__(self, config_path: str = "../config.yaml"):
+    def __init__(self, config_path: str = "./config.yaml"):
         """Initialize the processor with configuration"""
         self.config = self._load_config(config_path)
         self.mistral_api_key = self._get_mistral_api_key()
